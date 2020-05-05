@@ -1,5 +1,5 @@
 {
-    "name": "sped-simplissweb",
+    "name": "sped-nfsesimplissweb",
     "type": "library",
     "description": "API para comunicação com sistemas de emissão simplissweb",
     "keywords": [
@@ -7,7 +7,7 @@
         "sped",
         "nfephp"
     ],
-    "homepage": "https://github.com/Focus599Dev/sped-simplissweb",
+    "homepage": "https://github.com/Focus599Dev/sped-nfsesimplissweb",
     "license": [
         "LGPL-3.0-or-later",
         "GPL-3.0-or-later",
@@ -17,7 +17,7 @@
         {
             "name": "Marlon Oliveira Barbosa",
             "email": "marlon.academi@gmail.com",
-            "homepage": "https://github.com/Focus599Dev/sped-simplissweb",
+            "homepage": "https://github.com/Focus599Dev/sped-nfsesimplissweb",
             "role": "Developer"
         }
     ],
