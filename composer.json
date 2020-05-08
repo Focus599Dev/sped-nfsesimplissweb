@@ -35,12 +35,12 @@
     },
     "autoload": {
         "psr-4": {
-            "NFePHP\\NFSe\\simplissweb\\": "src/"
+            "NFePHP\\NFSe\\SIMPLISSWEB\\": "src/"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "NFePHP\\NFSe\\simplissweb\\Tests\\": "tests/"
+            "NFePHP\\NFSe\\SIMPLISSWEB\\Tests\\": "tests/"
         }
     },
     "scripts": {
