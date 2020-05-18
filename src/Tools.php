@@ -18,28 +18,38 @@ class Tools extends ToolsBase
 
         $xml = Strings::clearXmlString($xml);
 
-        $servico = 'enviar';
+        $method = 'RecepcionarLoteRps';
 
-        $xsd = 'ReqEnvioLoteRPS.xsd';
+        $method2 = 'EnviarLoteRpsEnvio';
 
         $this->lastRequest = htmlspecialchars_decode($xml);
 
+        $request = $this->envelopXML($xml, $method, $method2);
+
+        $request = $this->envelopSoapXML($request);
+
         $request = Signer::sign(
             $this->certificate,
-            $xml,
+            $request,
+            'Rps',
+            'Id',
+            $this->algorithm,
+            $this->canonical
+        );
+
+        $request = Signer::sign(
+            $this->certificate,
+            $request,
             'EnviarLoteRpsEnvio',
             'Id',
             $this->algorithm,
             $this->canonical
         );
-        var_dump('ae');
-        $request = $this->envelopXML($xml, $servico);
+        // echo $request; die;
+        $soapAction = 'http://www.sistema.com.br/Sistema.Ws.Nfse/INfseService/RecepcionarLoteRps';
 
-        $request = $this->envelopSoapXML($request);
-        echo $request;
-        die;
-        $response = $this->sendRequest($request, $this->soapUrl);
-
+        $response = $this->sendRequest($request, $this->soapUrl, $soapAction);
+        echo $response; die;
         $response = strip_tags($response);
 
         $response = htmlspecialchars_decode($response);

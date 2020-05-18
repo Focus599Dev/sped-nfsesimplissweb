@@ -23,16 +23,14 @@ class Signer
         $algorithm = OPENSSL_ALGO_SHA1,
         $canonical = [false, false, null, null],
         $rootname = ''
-    ) { var_dump('ae');
+    ) {
         if (!empty($canonical)) {
             self::$canonical = $canonical;
         }
         if (empty($content)) {
             throw SignerException::isNotXml();
         }
-        if (!Validator::isXML($content)) {
-            throw SignerException::isNotXml();
-        }
+
         $dom = new DOMDocument('1.0', 'UTF-8');
         $dom->loadXML($content, LIBXML_NOBLANKS | LIBXML_NOEMPTYTAG);
         $dom->preserveWhiteSpace = false;
@@ -97,7 +95,7 @@ class Signer
         $idSigned = trim($node->getAttribute($mark));
         $digestValue = self::makeDigest($node, $digestAlgorithm, $canonical);
         $signatureNode = $dom->createElementNS($nsDSIG, 'Signature');
-        $root->appendChild($signatureNode);
+        $node->appendChild($signatureNode);
         $signedInfoNode = $dom->createElement('SignedInfo');
         $signatureNode->appendChild($signedInfoNode);
         $canonicalNode = $dom->createElement('CanonicalizationMethod');

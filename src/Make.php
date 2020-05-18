@@ -73,18 +73,18 @@ class Make
         $listaRps = $this->dom->createElement('nfse:ListaRps');
         $loteRps->appendChild($listaRps);
 
-        $rps = $this->dom->createElement('nfse:Rps');
+        $rps = $this->dom->createElement('Rps');
         $listaRps->appendChild($rps);
 
-        $infRps = $this->dom->createElement('nfse:InfRps');
+        $infRps = $this->dom->createElement('InfRps');
         $rps->appendChild($infRps);
 
-        $identificacaoRps = $this->dom->createElement('nfse:IdentificacaoRps');
+        $identificacaoRps = $this->dom->createElement('IdentificacaoRps');
         $infRps->appendChild($identificacaoRps);
 
         $this->dom->addChild(
             $identificacaoRps,
-            "nfse:Numero",
+            "Numero",
             '1',
             true,
             "Número do RPS"
@@ -92,7 +92,7 @@ class Make
 
         $this->dom->addChild(
             $identificacaoRps,
-            "nfse:Serie",
+            "Serie",
             $std->Serie,
             true,
             "Número de série do RPS"
@@ -100,7 +100,7 @@ class Make
 
         $this->dom->addChild(
             $identificacaoRps,
-            "nfse:Tipo",
+            "Tipo",
             '1',
             true,
             "Código de tipo de RPS.
@@ -111,7 +111,7 @@ class Make
 
         $this->dom->addChild(
             $infRps,
-            "nfse:DataEmissao",
+            "DataEmissao",
             $std->DataEmissao,
             true,
             "Formato AAAA-MM-DDTHH:mm:ss"
@@ -119,7 +119,7 @@ class Make
 
         $this->dom->addChild(
             $infRps,
-            "nfse:NaturezaOperacao",
+            "NaturezaOperacao",
             '1',
             true,
             "Código de natureza da operação.
@@ -133,7 +133,7 @@ class Make
 
         $this->dom->addChild(
             $infRps,
-            "nfse:RegimeEspecialTributacao",
+            "RegimeEspecialTributacao",
             '1',
             true,
             "Código de identificação do regime especial de tributação.
@@ -147,7 +147,7 @@ class Make
 
         $this->dom->addChild(
             $infRps,
-            "nfse:OptanteSimplesNacional",
+            "OptanteSimplesNacional",
             '1',
             true,
             "Identificação de Sim/Não
@@ -157,7 +157,7 @@ class Make
 
         $this->dom->addChild(
             $infRps,
-            "nfse:IncentivadorCultural",
+            "IncentivadorCultural",
             '1',
             true,
             "Identificação de Sim/Não
@@ -167,7 +167,7 @@ class Make
 
         $this->dom->addChild(
             $infRps,
-            "nfse:Status",
+            "Status",
             '1',
             true,
             "Código de status do RPS
@@ -175,18 +175,18 @@ class Make
                 2 –Cancelado"
         );
 
-        // $identificacaoRps = $this->dom->createElement('nfse:RpsSubstituido');
+        // $identificacaoRps = $this->dom->createElement('RpsSubstituido');
         // $infRps->appendChild($identificacaoRps);
 
-        $servico = $this->dom->createElement('nfse:Servico');
+        $servico = $this->dom->createElement('Servico');
         $infRps->appendChild($servico);
 
-        $valores = $this->dom->createElement('nfse:Valores');
+        $valores = $this->dom->createElement('Valores');
         $servico->appendChild($valores);
 
         $this->dom->addChild(
             $valores,
-            "nfse:ValorServicos",
+            "ValorServicos",
             $std->ValorServicos,
             true,
             "Valor dos serviços em R$"
@@ -194,7 +194,7 @@ class Make
 
         $this->dom->addChild(
             $valores,
-            "nfse:ValorDeducoes",
+            "ValorDeducoes",
             $std->ValorDeducoes,
             true,
             "Valor das deduções para Redução da Base de Cálculo em R$."
@@ -202,7 +202,7 @@ class Make
 
         $this->dom->addChild(
             $valores,
-            "nfse:ValorPis",
+            "ValorPis",
             $std->ValorPis,
             true,
             "Valor da retenção do PIS em R$"
@@ -210,7 +210,7 @@ class Make
 
         $this->dom->addChild(
             $valores,
-            "nfse:ValorCofins",
+            "ValorCofins",
             $std->ValorCofins,
             true,
             "Valor da retenção do COFINS em R$"
@@ -218,7 +218,7 @@ class Make
 
         $this->dom->addChild(
             $valores,
-            "nfse:ValorInss",
+            "ValorInss",
             $std->ValorInss,
             true,
             "Valor da retenção do INSS em R$"
@@ -226,7 +226,7 @@ class Make
 
         $this->dom->addChild(
             $valores,
-            "nfse:ValorIr",
+            "ValorIr",
             $std->ValorIr,
             true,
             "Valor da retenção do IR em R$"
@@ -234,7 +234,7 @@ class Make
 
         $this->dom->addChild(
             $valores,
-            "nfse:ValorCsll",
+            "ValorCsll",
             $std->ValorCsll,
             true,
             "Valor da retenção do CSLL em R$"
@@ -242,7 +242,7 @@ class Make
 
         $this->dom->addChild(
             $valores,
-            "nfse:IssRetido",
+            "IssRetido",
             $std->IssRetido,
             true,
             "1 –Sim
@@ -254,7 +254,7 @@ class Make
 
         $this->dom->addChild(
             $valores,
-            "nfse:ValorIss",
+            "ValorIss",
             $std->ValorIss,
             true,
             "Valor do ISS"
@@ -262,7 +262,7 @@ class Make
 
         $this->dom->addChild(
             $valores,
-            "nfse:OutrasRetencoes",
+            "OutrasRetencoes",
             $std->ValorOutrasRetencoes,
             true,
             "Valor de outras retenções"
@@ -270,7 +270,7 @@ class Make
 
         $this->dom->addChild(
             $valores,
-            "nfse:BaseCalculo",
+            "BaseCalculo",
             $std->BaseCalculo,
             true,
             "Valor dos serviços – Valor das deduções – descontos incondicionados"
@@ -278,7 +278,7 @@ class Make
 
         $this->dom->addChild(
             $valores,
-            "nfse:Aliquota",
+            "Aliquota",
             $std->Aliquota,
             true,
             "Valor percentual"
@@ -286,7 +286,7 @@ class Make
 
         $this->dom->addChild(
             $valores,
-            "nfse:ValorLiquidoNfse",
+            "ValorLiquidoNfse",
             $std->ValorLiquidoNfse,
             true,
             "    ValorServicos 
@@ -303,7 +303,7 @@ class Make
 
         $this->dom->addChild(
             $valores,
-            "nfse:ValorIssRetido",
+            "ValorIssRetido",
             $std->ValorIssRetido,
             true,
             "Valor do ISS Retido"
@@ -311,7 +311,7 @@ class Make
 
         $this->dom->addChild(
             $valores,
-            "nfse:DescontoCondicionado",
+            "DescontoCondicionado",
             '0',
             true,
             "Valor do Desconto Condicionado"
@@ -319,7 +319,7 @@ class Make
 
         $this->dom->addChild(
             $valores,
-            "nfse:DescontoIncondicionado",
+            "DescontoIncondicionado",
             $std->DescontoIncondicionado,
             true,
             "Valor do Desconto Incondicionado"
@@ -327,7 +327,7 @@ class Make
 
         $this->dom->addChild(
             $servico,
-            "nfse:ItemListaServico",
+            "ItemListaServico",
             $std->ItemListaServico,
             true,
             "Código de item da lista de serviço"
@@ -335,7 +335,7 @@ class Make
 
         $this->dom->addChild(
             $servico,
-            "nfse:CodigoCnae",
+            "CodigoCnae",
             $std->CodigoCnae,
             true,
             "Código CNAE"
@@ -343,7 +343,7 @@ class Make
 
         $this->dom->addChild(
             $servico,
-            "nfse:CodigoTributacaoMunicipio",
+            "CodigoTributacaoMunicipio",
             $std->CodigoTributacaoMunicipio,
             true,
             "Código de Tributação"
@@ -351,7 +351,7 @@ class Make
 
         $this->dom->addChild(
             $servico,
-            "nfse:Discriminacao",
+            "Discriminacao",
             $std->Discriminacao,
             true,
             "Discriminação do conteúdo da NFS-e"
@@ -359,19 +359,19 @@ class Make
 
         $this->dom->addChild(
             $servico,
-            "nfse:CodigoMunicipio",
+            "CodigoMunicipio",
             $std->CodigoMunicipio,
             true,
             "Código  de  identificação do município conforme tabela do IBGE.
             Preencher com 5 noves para serviço prestado no exterior."
         );
 
-        $itensServico = $this->dom->createElement('nfse:ItensServico');
+        $itensServico = $this->dom->createElement('ItensServico');
         $servico->appendChild($itensServico);
 
         $this->dom->addChild(
             $itensServico,
-            "nfse:Descricao",
+            "Descricao",
             $std->Discriminacao,
             true,
             "Descrição do serviço"
@@ -379,7 +379,7 @@ class Make
 
         $this->dom->addChild(
             $itensServico,
-            "nfse:Quantidade",
+            "Quantidade",
             $std->Quantidade,
             true,
             "Quantidade de itens"
@@ -387,18 +387,18 @@ class Make
 
         $this->dom->addChild(
             $itensServico,
-            "nfse:ValorUnitario",
+            "ValorUnitario",
             $std->ValorUnit,
             true,
             "Valor unitário de cada serviço"
         );
 
-        $prestador = $this->dom->createElement('nfse:Prestador');
+        $prestador = $this->dom->createElement('Prestador');
         $infRps->appendChild($prestador);
 
         $this->dom->addChild(
             $prestador,
-            "nfse:Cnpj",
+            "Cnpj",
             $std->prestador->Cnpj,
             true,
             "Número do CNPJ do prestador"
@@ -406,24 +406,24 @@ class Make
 
         $this->dom->addChild(
             $prestador,
-            "nfse:InscricaoMunicipal",
+            "InscricaoMunicipal",
             $std->prestador->InscricaoMunicipal,
             true,
             "Número de Inscrição Municipal do prestador"
         );
 
-        $tomador = $this->dom->createElement('nfse:Tomador');
+        $tomador = $this->dom->createElement('Tomador');
         $infRps->appendChild($tomador);
 
-        $identificacaoTomador = $this->dom->createElement('nfse:IdentificacaoTomador');
+        $identificacaoTomador = $this->dom->createElement('IdentificacaoTomador');
         $tomador->appendChild($identificacaoTomador);
 
-        $cpfCnpj = $this->dom->createElement('nfse:CpfCnpj');
+        $cpfCnpj = $this->dom->createElement('CpfCnpj');
         $identificacaoTomador->appendChild($cpfCnpj);
 
         $this->dom->addChild(
             $cpfCnpj,
-            "nfse:Cpf",
+            "Cpf",
             '00000000000',
             true,
             "Número do Cpf"
@@ -431,7 +431,7 @@ class Make
 
         $this->dom->addChild(
             $identificacaoTomador,
-            "nfse:Cnpj",
+            "Cnpj",
             $std->tomador->Cnpj,
             true,
             "Número do Cnpj"
@@ -439,7 +439,7 @@ class Make
 
         $this->dom->addChild(
             $identificacaoTomador,
-            "nfse:InscricaoMunicipal",
+            "InscricaoMunicipal",
             $std->tomador->InscricaoMunicipal,
             true,
             "Número de Inscrição Municipal do tomador"
@@ -447,7 +447,7 @@ class Make
 
         $this->dom->addChild(
             $identificacaoTomador,
-            "nfse:InscricaoEstadual",
+            "InscricaoEstadual",
             $std->tomador->InscricaoMunicipal,
             true,
             "Número de Inscrição Estadual do tomador"
@@ -455,18 +455,18 @@ class Make
 
         $this->dom->addChild(
             $tomador,
-            "nfse:RazaoSocial",
+            "RazaoSocial",
             $std->tomador->RazaoSocial,
             true,
             "Razão Social do tomador"
         );
 
-        $endereco = $this->dom->createElement('nfse:Endereco');
+        $endereco = $this->dom->createElement('Endereco');
         $tomador->appendChild($endereco);
 
         $this->dom->addChild(
             $endereco,
-            "nfse:Endereco",
+            "Endereco",
             $std->tomador->Endereco,
             true,
             "Endereço"
@@ -474,7 +474,7 @@ class Make
 
         $this->dom->addChild(
             $endereco,
-            "nfse:Numero",
+            "Numero",
             $std->tomador->Numero,
             true,
             "Número do endereço"
@@ -482,7 +482,7 @@ class Make
 
         $this->dom->addChild(
             $endereco,
-            "nfse:Complemento",
+            "Complemento",
             $std->tomador->Complemento,
             true,
             "Complemento do Endereço"
@@ -490,7 +490,7 @@ class Make
 
         $this->dom->addChild(
             $endereco,
-            "nfse:Bairro",
+            "Bairro",
             $std->tomador->Bairro,
             true,
             "Nome do bairro"
@@ -498,7 +498,7 @@ class Make
 
         $this->dom->addChild(
             $endereco,
-            "nfse:CodigoMunicipio",
+            "CodigoMunicipio",
             $std->tomador->CodigoMunicipio,
             true,
             "Código de identificação do município conforme tabela do IBGE"
@@ -506,7 +506,7 @@ class Make
 
         $this->dom->addChild(
             $endereco,
-            "nfse:Uf",
+            "Uf",
             $std->tomador->Uf,
             true,
             "Sigla da unidade federativa"
@@ -514,18 +514,18 @@ class Make
 
         $this->dom->addChild(
             $endereco,
-            "nfse:Cep",
+            "Cep",
             $std->tomador->Cep,
             true,
             "Número do CEP"
         );
 
-        $contato = $this->dom->createElement('nfse:Contato');
+        $contato = $this->dom->createElement('Contato');
         $tomador->appendChild($contato);
 
         $this->dom->addChild(
             $contato,
-            "nfse:Telefone",
+            "Telefone",
             $std->tomador->Telefone,
             true,
             "Telefone para contato"
@@ -533,29 +533,29 @@ class Make
 
         $this->dom->addChild(
             $contato,
-            "nfse:Email",
+            "Email",
             $std->tomador->Email,
             true,
             "E-mail para contato"
         );
 
-        $intermediarioServico = $this->dom->createElement('nfse:IntermediarioServico');
+        $intermediarioServico = $this->dom->createElement('IntermediarioServico');
         $infRps->appendChild($intermediarioServico);
 
         $this->dom->addChild(
             $intermediarioServico,
-            "nfse:RazaoSocial",
+            "RazaoSocial",
             '',
             true,
             "Razão Social do intermediário"
         );
 
-        $cpfCnpj = $this->dom->createElement('nfse:CpfCnpj');
+        $cpfCnpj = $this->dom->createElement('CpfCnpj');
         $intermediarioServico->appendChild($cpfCnpj);
 
         $this->dom->addChild(
             $cpfCnpj,
-            "nfse:Cpf",
+            "Cpf",
             '',
             true,
             "Número do Cpf"
@@ -563,7 +563,7 @@ class Make
 
         $this->dom->addChild(
             $cpfCnpj,
-            "nfse:Cnpj",
+            "Cnpj",
             '',
             true,
             "Número do Cnpj"
@@ -571,18 +571,18 @@ class Make
 
         $this->dom->addChild(
             $identificacaoTomador,
-            "nfse:InscricaoMunicipal",
+            "InscricaoMunicipal",
             '',
             true,
             "Número de Inscrição Municipal do intermediário"
         );
 
-        $construcaoCivil = $this->dom->createElement('nfse:ConstrucaoCivil');
+        $construcaoCivil = $this->dom->createElement('ConstrucaoCivil');
         $infRps->appendChild($construcaoCivil);
 
         $this->dom->addChild(
             $construcaoCivil,
-            "nfse:CodigoObra",
+            "CodigoObra",
             '',
             true,
             "Código de Obra"
@@ -590,7 +590,7 @@ class Make
 
         $this->dom->addChild(
             $construcaoCivil,
-            "nfse:Art",
+            "Art",
             '',
             true,
             "Código ART"
@@ -603,9 +603,173 @@ class Make
 
     public function cancelamento($std)
     {
+        $pedido = $this->dom->createElement('Pedido');
+        $this->dom->appendChild($pedido);
+
+        $infPedidoCancelamento = $this->dom->createElement('InfPedidoCancelamento');
+        $pedido->appendChild($infPedidoCancelamento);
+
+        $this->dom->addChild(
+            $infPedidoCancelamento,
+            "Numero",
+            $std->NumeroLote,
+            true,
+            "Número da Nota Fiscal de Serviço Eletrônica Formato AAAANNNNNNNNNNN"
+        );
+
+        $this->dom->addChild(
+            $infPedidoCancelamento,
+            "Cnpj",
+            $std->infPedidoCancelamento,
+            true,
+            "CNPJ"
+        );
+
+        $this->dom->addChild(
+            $infPedidoCancelamento,
+            "InscricaoMunicipal",
+            $std->infPedidoCancelamento,
+            true,
+            "Número de inscrição municipal"
+        );
+
+        $this->dom->addChild(
+            $infPedidoCancelamento,
+            "CodigoMunicipio",
+            $std->infPedidoCancelamento,
+            true,
+            "Código de identificação do município conforme1-1tabela do IBGE"
+        );
     }
 
-    public function consulta($std, $codigoCidade)
+    public function consulta($std)
     {
+        $consultarNfse = $this->dom->createElement('ConsultarNfse');
+        $this->dom->appendChild($consultarNfse);
+
+        $consultarNfseEnvio = $this->dom->createElement('ConsultarNfseEnvio');
+        $consultarNfse->appendChild($consultarNfseEnvio);
+
+        $prestador = $this->dom->createElement('Prestador');
+        $consultarNfseEnvio->appendChild($prestador);
+
+        $this->dom->addChild(
+            $prestador,
+            "Cnpj",
+            $std->NumeroLote,
+            true,
+            "Número do CNPJ do prestador"
+        );
+
+        $this->dom->addChild(
+            $prestador,
+            "InscricaoMunicipal",
+            $std->NumeroLote,
+            true,
+            "Número de Inscrição Municipal do prestador"
+        );
+
+        $this->dom->addChild(
+            $consultarNfseEnvio,
+            "NumeroNfse",
+            $std->NumeroLote,
+            true,
+            "Número da Nota Fiscal de Serviço Eletrônica Formato AAAANNNNNNNNNNN"
+        );
+
+        $periodoEmissao = $this->dom->createElement('PeriodoEmissao');
+        $consultarNfseEnvio->appendChild($periodoEmissao);
+
+        $this->dom->addChild(
+            $periodoEmissao,
+            "DataInicial",
+            $std->NumeroLote,
+            true,
+            "Data inicial da consulta Nfse Formato: AAAA-MM-DD"
+        );
+
+        $this->dom->addChild(
+            $periodoEmissao,
+            "DataFinal",
+            $std->NumeroLote,
+            true,
+            "Data final da consulta Nfse"
+        );
+
+        $tomador = $this->dom->createElement('Tomador');
+        $consultarNfseEnvio->appendChild($tomador);
+
+        $cpfCnpj = $this->dom->createElement('CpfCnpj');
+        $tomador->appendChild($cpfCnpj);
+
+        $this->dom->addChild(
+            $cpfCnpj,
+            "Cpf",
+            '00000000000',
+            true,
+            "Número do Cpf"
+        );
+
+        $this->dom->addChild(
+            $identificacaoTomador,
+            "Cnpj",
+            $std->tomador->Cnpj,
+            true,
+            "Número do Cnpj"
+        );
+
+        $this->dom->addChild(
+            $identificacaoTomador,
+            "InscricaoMunicipal",
+            $std->tomador->InscricaoMunicipal,
+            true,
+            "Número de Inscrição Municipal do tomador"
+        );
+
+        $this->dom->addChild(
+            $identificacaoTomador,
+            "InscricaoEstadual",
+            $std->tomador->InscricaoMunicipal,
+            true,
+            "Número de Inscrição Estadual do tomador"
+        );
+
+        $intermediarioServico = $this->dom->createElement('IntermediarioServico');
+        $consultarNfseEnvio->appendChild($intermediarioServico);
+
+        $this->dom->addChild(
+            $intermediarioServico,
+            "RazaoSocial",
+            $std->tomador->InscricaoMunicipal,
+            true,
+            "Razão Social do intermediário"
+        );
+
+        $cpfCnpj = $this->dom->createElement('CpfCnpj');
+        $intermediarioServico->appendChild($cpfCnpj);
+
+        $this->dom->addChild(
+            $cpfCnpj,
+            "Cpf",
+            '00000000000',
+            true,
+            "Número do Cpf"
+        );
+
+        $this->dom->addChild(
+            $identificacaoTomador,
+            "Cnpj",
+            $std->tomador->Cnpj,
+            true,
+            "Número do Cnpj"
+        );
+
+        $this->dom->addChild(
+            $intermediarioServico,
+            "InscricaoMunicipal",
+            $std->tomador->InscricaoMunicipal,
+            true,
+            "Número de Inscrição Municipal do intermediário"
+        );
     }
 }

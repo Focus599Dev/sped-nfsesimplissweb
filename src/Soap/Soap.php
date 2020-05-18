@@ -5,15 +5,14 @@ namespace NFePHP\NFSe\SIMPLISSWEB\Soap;
 class Soap
 {
 
-    public function send($xml, $soapUrl)
+    public function send($xml, $soapUrl, $soapAction)
     {
-
         $headers = array(
             "Content-type: text/xml;charset=\"utf-8\"",
             "Accept: text/xml",
             "Cache-Control: no-cache",
             "Pragma: no-cache",
-            "SOAPAction: ;",
+            "SOAPAction: " . $soapAction,
             "Content-length: " . strlen($xml),
         ); //SOAPAction: your op URL
 

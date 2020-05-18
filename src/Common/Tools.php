@@ -43,27 +43,39 @@ class Tools
         }
     }
 
-    protected function sendRequest($request, $soapUrl)
+    protected function sendRequest($request, $soapUrl, $soapAction)
     {
 
         $soap = new Soap;
 
-        $response = $soap->send($request, $soapUrl);
+        $response = $soap->send($request, $soapUrl, $soapAction);
 
         return (string) $response;
     }
 
-    public function envelopXML($xml, $method)
+    public function envelopXML($xml, $method, $method2)
     {
-
         $xml = trim(preg_replace("/<\?xml.*?\?>/", "", $xml));
-
+        var_dump($this->config);
+        $this->xml = '<sis:' . $method . '>
+                        <sis:' . $method2 . '>' . $xml . '
+                        </sis:' . $method2 . '>
+                        <sis:pParam>
+                            <sis1:P1>' . $this->config->cnpj . '</sis1:P1>
+                            <sis1:P2>' . $this->config->cnpj . '</sis1:P2>
+                        </sis:pParam>
+                    </sis:' . $method . '>';
 
         return $this->xml;
     }
 
     public function envelopSoapXML($xml)
     {
+        $this->xml = '<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:sis="http://www.sistema.com.br/Sistema.Ws.Nfse" xmlns:nfse="http://www.sistema.com.br/Nfse/arquivos/nfse_3.xsd" xmlns:xd="http://www.w3.org/2000/09/xmldsig#" xmlns:sis1="http://www.sistema.com.br/Sistema.Ws.Nfse.Cn">
+        <soapenv:Header/>
+        <soapenv:Body>
+        ' . $xml . '</soapenv:Body>
+        </soapenv:Envelope>';
 
         return $this->xml;
     }
