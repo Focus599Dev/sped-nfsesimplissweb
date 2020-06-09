@@ -3,22 +3,10 @@
 namespace NFePHP\NFSe\SIMPLISSWEB\Factories;
 
 use NFePHP\NFSe\SIMPLISSWEB\Make;
-use stdClass;
 use NFePHP\Common\Strings;
-use App\Http\Model\Uteis;
 
 class Parser
 {
-
-    protected $structure;
-
-    protected $make;
-
-    protected $loteRps;
-
-    protected $tomador;
-
-    protected $std;
 
     public function __construct($version = '3.0.1')
     {
@@ -27,15 +15,29 @@ class Parser
 
         $path = realpath(__DIR__ . "/../../storage/txtstructure.json");
 
-        $this->std = new \stdClass();
+        $this->LoteRps = new \stdClass();
 
-        $this->std->tomador = new \stdClass();
+        $this->IdentificacaoRps = new \stdClass();
 
-        $this->std->prestador = new \stdClass();
+        $this->InfRps = new \stdClass();
 
-        $this->std->servico = array();
+        $this->Valores = new \stdClass();
 
-        $this->servicos = array();
+        $this->Servico = new \stdClass();
+
+        $this->ItensServico = new \stdClass();
+
+        $this->cpfCnpj = new \stdClass();
+
+        $this->InscricaoMunicipal = new \stdClass();
+
+        $this->Tomador = new \stdClass();
+
+        $this->Prestador = new \stdClass();
+
+        $this->Endereco = new \stdClass();
+
+        $this->Contato = new \stdClass();
 
         $this->structure = json_decode(file_get_contents($path), true);
 
@@ -47,12 +49,11 @@ class Parser
     public function toXml($nota)
     {
 
-        $std = $this->array2xml($nota);
+        $this->array2xml($nota);
 
+        if ($this->make->monta()) {
 
-        if ($this->make->getXML($this->std)) {
-
-            return $this->make->getXML($this->std);
+            return $this->make->getXML();
         }
 
         return null;
@@ -61,20 +62,25 @@ class Parser
     protected function array2xml($nota)
     {
 
-        $obj = [];
-
         foreach ($nota as $lin) {
 
             $fields = explode('|', $lin);
 
-            $struct = $this->structure[strtoupper($fields[0])];
+            if (empty($fields)) {
+                continue;
+            }
 
-            $std = $this->fieldsToStd($fields, $struct);
+            $metodo = strtolower(str_replace(' ', '', $fields[0])) . 'Entity';
 
-            $obj = (object) array_merge((array) $obj, (array) $std);
+            if (method_exists(__CLASS__, $metodo)) {
+
+                $struct = $this->structure[strtoupper($fields[0])];
+
+                $std = $this->fieldsToStd($fields, $struct);
+
+                $this->$metodo($std);
+            }
         }
-
-        return $obj;
     }
 
     protected function fieldsToStd($dfls, $struct)
@@ -83,6 +89,8 @@ class Parser
         $sfls = explode('|', $struct);
 
         $len = count($sfls) - 1;
+
+        $std = new \stdClass();
 
         for ($i = 1; $i < $len; $i++) {
 
@@ -95,26 +103,87 @@ class Parser
 
             if (!empty($name)) {
 
-                if ($dfls[0] == 'C') {
-
-                    $this->std->prestador->$name = Strings::replaceSpecialsChars($data);
-                } elseif ($dfls[0] == 'E' || $dfls[0] == 'E02') {
-
-                    $this->std->tomador->$name = Strings::replaceSpecialsChars($data);
-                } else {
-
-                    $this->std->$name = Strings::replaceSpecialsChars($data);
-                }
+                $std->$name = Strings::replaceSpecialsChars($data);
             }
         }
 
-        if ($dfls[0] == 'N') {
+        return $std;
+    }
 
-            $this->servicos[] = $dfls;
+    private function aEntity($std)
+    {
+        $this->LoteRps = (object) array_merge((array) $this->LoteRps, (array) $std);
+    }
 
-            $this->std->servico = $this->servicos;
-        }
+    private function bEntity($std)
+    {
+        $this->LoteRps = (object) array_merge((array) $this->LoteRps, (array) $std);
+    }
 
-        return $this->std;
+    private function cEntity($std)
+    {
+        $this->LoteRps = (object) array_merge((array) $this->LoteRps, (array) $std);
+
+        $this->make->buildLoteRps($this->LoteRps);
+
+        $this->Prestador = (object) array_merge((array) $this->Prestador, (array) $std);
+
+        $this->make->buildPrestador($this->Prestador);
+    }
+
+    private function eEntity($std)
+    {
+        $this->Tomador = (object) array_merge((array) $this->Tomador, (array) $std);
+
+        $this->make->buildTomador($this->Tomador);
+
+        $this->Endereco = (object) array_merge((array) $this->Endereco, (array) $std);
+
+        $this->make->buildEndereco($this->Endereco);
+
+        $this->Contato = (object) array_merge((array) $this->Contato, (array) $std);
+
+        $this->make->buildContato($this->Contato);
+    }
+
+    private function e02Entity($std)
+    {
+        $this->cpfCnpj = (object) array_merge((array) $this->cpfCnpj, (array) $std);
+
+        $this->InscricaoMunicipal = (object) array_merge((array) $this->InscricaoMunicipal, (array) $std);
+
+        $this->make->buildIdentificacaoTomador($this->InscricaoMunicipal);
+    }
+
+    private function h01Entity($std)
+    {
+        $this->IdentificacaoRps = (object) array_merge((array) $this->IdentificacaoRps, (array) $std);
+
+        $this->make->buildIdentificacaoRps($this->IdentificacaoRps);
+    }
+
+    private function mEntity($std)
+    {
+        $this->Valores = (object) array_merge((array) $this->Valores, (array) $std);
+
+        $this->make->buildValores($this->Valores);
+    }
+
+    private function nEntity($std)
+    {
+        $this->Servico = (object) array_merge((array) $this->Servico, (array) $std);
+
+        $this->make->buildServico($this->Servico);
+
+        $this->ItensServico = (object) array_merge((array) $this->ItensServico, (array) $std);
+
+        $this->make->buildItensServico($this->ItensServico);
+    }
+
+    private function wEntity($std)
+    {
+        $this->InfRps = (object) array_merge((array) $this->InfRps, (array) $std);
+
+        $this->make->buildInfRps($this->InfRps);
     }
 }

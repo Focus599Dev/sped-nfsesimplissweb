@@ -19,98 +19,134 @@ class Make
         $this->dom->preserveWhiteSpace = false;
 
         $this->dom->formatOutput = false;
+
+        $this->loteRps = $this->dom->createElement('nfse:LoteRps');
+
+        $this->infRps = $this->dom->createElement('InfRps');
+
+        $this->servico = $this->dom->createElement('Servico');
+
+        $this->itensServico = $this->dom->createElement('ItensServico');
+
+        $this->valores = $this->dom->createElement('Valores');
+
+        $this->identificacaoRps = $this->dom->createElement('IdentificacaoRps');
+
+        $this->prestador = $this->dom->createElement('Prestador');
+
+        $this->tomador = $this->dom->createElement('Tomador');
+
+        $this->identificacaoTomador = $this->dom->createElement('IdentificacaoTomador');
+
+        $this->contato = $this->dom->createElement('Contato');
+
+        $this->endereco = $this->dom->createElement('Endereco');
     }
 
-    public function getXML($std)
+    public function getXML()
     {
-
         if (empty($this->xml)) {
 
-            $this->gerarNota($std);
+            $this->monta();
         }
 
         return $this->xml;
     }
 
-    public function gerarNota($std)
+    public function monta()
+    {
+        $this->dom->appendChild($this->loteRps);
+
+        $listaRps = $this->dom->createElement('nfse:ListaRps');
+        $this->loteRps->appendChild($listaRps);
+
+        $rps = $this->dom->createElement('Rps');
+        $listaRps->appendChild($rps);
+
+        $rps->appendChild($this->infRps);
+
+        $items = $rps->getElementsByTagName('InfRps');
+
+        $firstItem = $items->item(0);
+
+        $firstItem->insertBefore($this->identificacaoRps, $firstItem->firstChild);
+
+        $this->infRps->appendChild($this->servico);
+
+        $items = $this->infRps->getElementsByTagName('Servico');
+
+        $firstItem = $items->item(0);
+
+        $firstItem->insertBefore($this->valores, $firstItem->firstChild);
+
+        $this->servico->appendChild($this->itensServico);
+
+        $this->infRps->appendChild($this->prestador);
+
+        $this->infRps->appendChild($this->tomador);
+
+        $items = $this->infRps->getElementsByTagName('Tomador');
+
+        $firstItem = $items->item(0);
+
+        $firstItem->insertBefore($this->identificacaoTomador, $firstItem->firstChild);
+
+        $this->tomador->appendChild($this->contato);
+
+        $contato = $this->tomador->getElementsByTagName('Contato')->item(0);
+
+        $firstItem->insertBefore($this->endereco, $contato);
+
+        $this->buildIntermediarioServico();
+
+        $this->buildConstrucaoCivil();
+
+        $this->xml = $this->dom->saveXML();
+
+        return $this->xml;
+    }
+
+    public function buildLoteRps($std)
     {
 
-        $loteRps = $this->dom->createElement('nfse:LoteRps');
-        $this->dom->appendChild($loteRps);
-
         $this->dom->addChild(
-            $loteRps,                                       // pai
-            "nfse:NumeroLote",                              // nome
-            $std->NumeroLote,                               // valor
-            true,                                           // se é obrigatorio
-            "Número do Lote de RPS"                         // descrição se der catch
+            $this->loteRps,
+            "nfse:NumeroLote",
+            $std->NumeroLote,
+            true,
+            "Número do Lote de RPS"
         );
 
         $this->dom->addChild(
-            $loteRps,
+            $this->loteRps,
             "nfse:Cnpj",
-            $std->prestador->Cnpj,
+            $std->Cnpj,
             true,
             "CNPJ do contribuinte"
         );
 
         $this->dom->addChild(
-            $loteRps,
+            $this->loteRps,
             "nfse:InscricaoMunicipal",
-            $std->NumeroLote,
+            $std->InscricaoMunicipal,
             true,
             "Número de Inscrição Municipal"
         );
 
         $this->dom->addChild(
-            $loteRps,
+            $this->loteRps,
             "nfse:QuantidadeRps",
-            '1',
+            $std->QuantidadeRps,
             true,
             "Quantidade de RPS do Lote"
         );
+    }
 
-        $listaRps = $this->dom->createElement('nfse:ListaRps');
-        $loteRps->appendChild($listaRps);
-
-        $rps = $this->dom->createElement('Rps');
-        $listaRps->appendChild($rps);
-
-        $infRps = $this->dom->createElement('InfRps');
-        $rps->appendChild($infRps);
-
-        $identificacaoRps = $this->dom->createElement('IdentificacaoRps');
-        $infRps->appendChild($identificacaoRps);
+    public function buildInfRps($std)
+    {
 
         $this->dom->addChild(
-            $identificacaoRps,
-            "Numero",
-            '1',
-            true,
-            "Número do RPS"
-        );
-
-        $this->dom->addChild(
-            $identificacaoRps,
-            "Serie",
-            $std->Serie,
-            true,
-            "Número de série do RPS"
-        );
-
-        $this->dom->addChild(
-            $identificacaoRps,
-            "Tipo",
-            '1',
-            true,
-            "Código de tipo de RPS.
-            1 –RPS
-            2 –Nota Fiscal Conjugada (Mista)
-            3 –Cupom"
-        );
-
-        $this->dom->addChild(
-            $infRps,
+            $this->infRps,
             "DataEmissao",
             $std->DataEmissao,
             true,
@@ -118,9 +154,9 @@ class Make
         );
 
         $this->dom->addChild(
-            $infRps,
+            $this->infRps,
             "NaturezaOperacao",
-            '1',
+            $std->NaturezaOperacao,
             true,
             "Código de natureza da operação.
                 1 –Tributação no município
@@ -132,9 +168,9 @@ class Make
         );
 
         $this->dom->addChild(
-            $infRps,
+            $this->infRps,
             "RegimeEspecialTributacao",
-            '1',
+            $std->RegimeEspecialTributacao,
             true,
             "Código de identificação do regime especial de tributação.
                 1 –Microempresa municipal
@@ -146,9 +182,9 @@ class Make
         );
 
         $this->dom->addChild(
-            $infRps,
+            $this->infRps,
             "OptanteSimplesNacional",
-            '1',
+            $std->OptanteSimplesNacional,
             true,
             "Identificação de Sim/Não
                 1 –Sim 
@@ -156,9 +192,9 @@ class Make
         );
 
         $this->dom->addChild(
-            $infRps,
+            $this->infRps,
             "IncentivadorCultural",
-            '1',
+            $std->IncentivadorCultural,
             true,
             "Identificação de Sim/Não
                 1 –Sim 
@@ -166,26 +202,97 @@ class Make
         );
 
         $this->dom->addChild(
-            $infRps,
+            $this->infRps,
             "Status",
-            '1',
+            $std->Status,
             true,
             "Código de status do RPS
                 1 –Normal
                 2 –Cancelado"
         );
+    }
 
-        // $identificacaoRps = $this->dom->createElement('RpsSubstituido');
-        // $infRps->appendChild($identificacaoRps);
-
-        $servico = $this->dom->createElement('Servico');
-        $infRps->appendChild($servico);
-
-        $valores = $this->dom->createElement('Valores');
-        $servico->appendChild($valores);
+    public function buildIdentificacaoRps($std)
+    {
 
         $this->dom->addChild(
-            $valores,
+            $this->identificacaoRps,
+            "Numero",
+            '1',
+            true,
+            "Número do RPS"
+        );
+
+        $this->dom->addChild(
+            $this->identificacaoRps,
+            "Serie",
+            $std->Serie,
+            true,
+            "Número de série do RPS"
+        );
+
+        $this->dom->addChild(
+            $this->identificacaoRps,
+            "Tipo",
+            '1',
+            true,
+            "Código de tipo de RPS.
+            1 –RPS
+            2 –Nota Fiscal Conjugada (Mista)
+            3 –Cupom"
+        );
+    }
+
+    public function buildServico($std)
+    {
+
+        $this->dom->addChild(
+            $this->servico,
+            "ItemListaServico",
+            $std->ItemListaServico,
+            true,
+            "Código de item da lista de serviço"
+        );
+
+        $this->dom->addChild(
+            $this->servico,
+            "CodigoCnae",
+            $std->CodigoCnae,
+            true,
+            "Código CNAE"
+        );
+
+        $this->dom->addChild(
+            $this->servico,
+            "CodigoTributacaoMunicipio",
+            $std->CodigoTributacaoMunicipio,
+            true,
+            "Código de Tributação"
+        );
+
+        $this->dom->addChild(
+            $this->servico,
+            "Discriminacao",
+            $std->Discriminacao,
+            true,
+            "Discriminação do conteúdo da NFS-e"
+        );
+
+        $this->dom->addChild(
+            $this->servico,
+            "CodigoMunicipio",
+            $std->CodigoMunicipio,
+            true,
+            "Código  de  identificação do município conforme tabela do IBGE.
+            Preencher com 5 noves para serviço prestado no exterior."
+        );
+    }
+
+    public function buildValores($std)
+    {
+
+        $this->dom->addChild(
+            $this->valores,
             "ValorServicos",
             $std->ValorServicos,
             true,
@@ -193,7 +300,7 @@ class Make
         );
 
         $this->dom->addChild(
-            $valores,
+            $this->valores,
             "ValorDeducoes",
             $std->ValorDeducoes,
             true,
@@ -201,7 +308,7 @@ class Make
         );
 
         $this->dom->addChild(
-            $valores,
+            $this->valores,
             "ValorPis",
             $std->ValorPis,
             true,
@@ -209,7 +316,7 @@ class Make
         );
 
         $this->dom->addChild(
-            $valores,
+            $this->valores,
             "ValorCofins",
             $std->ValorCofins,
             true,
@@ -217,7 +324,7 @@ class Make
         );
 
         $this->dom->addChild(
-            $valores,
+            $this->valores,
             "ValorInss",
             $std->ValorInss,
             true,
@@ -225,7 +332,7 @@ class Make
         );
 
         $this->dom->addChild(
-            $valores,
+            $this->valores,
             "ValorIr",
             $std->ValorIr,
             true,
@@ -233,7 +340,7 @@ class Make
         );
 
         $this->dom->addChild(
-            $valores,
+            $this->valores,
             "ValorCsll",
             $std->ValorCsll,
             true,
@@ -241,7 +348,7 @@ class Make
         );
 
         $this->dom->addChild(
-            $valores,
+            $this->valores,
             "IssRetido",
             $std->IssRetido,
             true,
@@ -253,7 +360,7 @@ class Make
         );
 
         $this->dom->addChild(
-            $valores,
+            $this->valores,
             "ValorIss",
             $std->ValorIss,
             true,
@@ -261,7 +368,7 @@ class Make
         );
 
         $this->dom->addChild(
-            $valores,
+            $this->valores,
             "OutrasRetencoes",
             $std->ValorOutrasRetencoes,
             true,
@@ -269,7 +376,7 @@ class Make
         );
 
         $this->dom->addChild(
-            $valores,
+            $this->valores,
             "BaseCalculo",
             $std->BaseCalculo,
             true,
@@ -277,7 +384,7 @@ class Make
         );
 
         $this->dom->addChild(
-            $valores,
+            $this->valores,
             "Aliquota",
             $std->Aliquota,
             true,
@@ -285,7 +392,7 @@ class Make
         );
 
         $this->dom->addChild(
-            $valores,
+            $this->valores,
             "ValorLiquidoNfse",
             $std->ValorLiquidoNfse,
             true,
@@ -302,7 +409,7 @@ class Make
         );
 
         $this->dom->addChild(
-            $valores,
+            $this->valores,
             "ValorIssRetido",
             $std->ValorIssRetido,
             true,
@@ -310,7 +417,7 @@ class Make
         );
 
         $this->dom->addChild(
-            $valores,
+            $this->valores,
             "DescontoCondicionado",
             '0',
             true,
@@ -318,59 +425,19 @@ class Make
         );
 
         $this->dom->addChild(
-            $valores,
+            $this->valores,
             "DescontoIncondicionado",
             $std->DescontoIncondicionado,
             true,
             "Valor do Desconto Incondicionado"
         );
+    }
+
+    public function buildItensServico($std)
+    {
 
         $this->dom->addChild(
-            $servico,
-            "ItemListaServico",
-            $std->ItemListaServico,
-            true,
-            "Código de item da lista de serviço"
-        );
-
-        $this->dom->addChild(
-            $servico,
-            "CodigoCnae",
-            $std->CodigoCnae,
-            true,
-            "Código CNAE"
-        );
-
-        $this->dom->addChild(
-            $servico,
-            "CodigoTributacaoMunicipio",
-            $std->CodigoTributacaoMunicipio,
-            true,
-            "Código de Tributação"
-        );
-
-        $this->dom->addChild(
-            $servico,
-            "Discriminacao",
-            $std->Discriminacao,
-            true,
-            "Discriminação do conteúdo da NFS-e"
-        );
-
-        $this->dom->addChild(
-            $servico,
-            "CodigoMunicipio",
-            $std->CodigoMunicipio,
-            true,
-            "Código  de  identificação do município conforme tabela do IBGE.
-            Preencher com 5 noves para serviço prestado no exterior."
-        );
-
-        $itensServico = $this->dom->createElement('ItensServico');
-        $servico->appendChild($itensServico);
-
-        $this->dom->addChild(
-            $itensServico,
+            $this->itensServico,
             "Descricao",
             $std->Discriminacao,
             true,
@@ -378,7 +445,7 @@ class Make
         );
 
         $this->dom->addChild(
-            $itensServico,
+            $this->itensServico,
             "Quantidade",
             $std->Quantidade,
             true,
@@ -386,40 +453,51 @@ class Make
         );
 
         $this->dom->addChild(
-            $itensServico,
+            $this->itensServico,
             "ValorUnitario",
             $std->ValorUnit,
             true,
             "Valor unitário de cada serviço"
         );
+    }
 
-        $prestador = $this->dom->createElement('Prestador');
-        $infRps->appendChild($prestador);
+    public function buildPrestador($std)
+    {
 
         $this->dom->addChild(
-            $prestador,
+            $this->prestador,
             "Cnpj",
-            $std->prestador->Cnpj,
+            $std->Cnpj,
             true,
             "Número do CNPJ do prestador"
         );
 
         $this->dom->addChild(
-            $prestador,
+            $this->prestador,
             "InscricaoMunicipal",
-            $std->prestador->InscricaoMunicipal,
+            $std->InscricaoMunicipal,
             true,
             "Número de Inscrição Municipal do prestador"
         );
+    }
 
-        $tomador = $this->dom->createElement('Tomador');
-        $infRps->appendChild($tomador);
+    public function buildTomador($std)
+    {
 
-        $identificacaoTomador = $this->dom->createElement('IdentificacaoTomador');
-        $tomador->appendChild($identificacaoTomador);
+        $this->dom->addChild(
+            $this->tomador,
+            "RazaoSocial",
+            $std->RazaoSocial,
+            true,
+            "Razão Social do tomador"
+        );
+    }
+
+    public function buildIdentificacaoTomador($std)
+    {
 
         $cpfCnpj = $this->dom->createElement('CpfCnpj');
-        $identificacaoTomador->appendChild($cpfCnpj);
+        $this->identificacaoTomador->appendChild($cpfCnpj);
 
         $this->dom->addChild(
             $cpfCnpj,
@@ -430,117 +508,114 @@ class Make
         );
 
         $this->dom->addChild(
-            $identificacaoTomador,
+            $cpfCnpj,
             "Cnpj",
-            $std->tomador->Cnpj,
+            $std->Cnpj,
             true,
             "Número do Cnpj"
         );
 
         $this->dom->addChild(
-            $identificacaoTomador,
+            $this->identificacaoTomador,
             "InscricaoMunicipal",
-            $std->tomador->InscricaoMunicipal,
+            $std->InscricaoMunicipal,
             true,
             "Número de Inscrição Municipal do tomador"
         );
 
         $this->dom->addChild(
-            $identificacaoTomador,
+            $this->identificacaoTomador,
             "InscricaoEstadual",
-            $std->tomador->InscricaoMunicipal,
+            $std->InscricaoMunicipal,
             true,
             "Número de Inscrição Estadual do tomador"
         );
+    }
+
+    public function buildEndereco($std)
+    {
 
         $this->dom->addChild(
-            $tomador,
-            "RazaoSocial",
-            $std->tomador->RazaoSocial,
-            true,
-            "Razão Social do tomador"
-        );
-
-        $endereco = $this->dom->createElement('Endereco');
-        $tomador->appendChild($endereco);
-
-        $this->dom->addChild(
-            $endereco,
+            $this->endereco,
             "Endereco",
-            $std->tomador->Endereco,
+            $std->Endereco,
             true,
             "Endereço"
         );
 
         $this->dom->addChild(
-            $endereco,
+            $this->endereco,
             "Numero",
-            $std->tomador->Numero,
+            $std->Numero,
             true,
             "Número do endereço"
         );
 
         $this->dom->addChild(
-            $endereco,
+            $this->endereco,
             "Complemento",
-            $std->tomador->Complemento,
+            $std->Complemento,
             true,
             "Complemento do Endereço"
         );
 
         $this->dom->addChild(
-            $endereco,
+            $this->endereco,
             "Bairro",
-            $std->tomador->Bairro,
+            $std->Bairro,
             true,
             "Nome do bairro"
         );
 
         $this->dom->addChild(
-            $endereco,
+            $this->endereco,
             "CodigoMunicipio",
-            $std->tomador->CodigoMunicipio,
+            $std->CodigoMunicipio,
             true,
             "Código de identificação do município conforme tabela do IBGE"
         );
 
         $this->dom->addChild(
-            $endereco,
+            $this->endereco,
             "Uf",
-            $std->tomador->Uf,
+            $std->Uf,
             true,
             "Sigla da unidade federativa"
         );
 
         $this->dom->addChild(
-            $endereco,
+            $this->endereco,
             "Cep",
-            $std->tomador->Cep,
+            $std->Cep,
             true,
             "Número do CEP"
         );
+    }
 
-        $contato = $this->dom->createElement('Contato');
-        $tomador->appendChild($contato);
+    public function buildContato($std)
+    {
 
         $this->dom->addChild(
-            $contato,
+            $this->contato,
             "Telefone",
-            $std->tomador->Telefone,
+            $std->Telefone,
             true,
             "Telefone para contato"
         );
 
         $this->dom->addChild(
-            $contato,
+            $this->contato,
             "Email",
-            $std->tomador->Email,
+            $std->Email,
             true,
             "E-mail para contato"
         );
+    }
 
+    public function buildIntermediarioServico()
+    {
         $intermediarioServico = $this->dom->createElement('IntermediarioServico');
-        $infRps->appendChild($intermediarioServico);
+        $this->infRps->appendChild($intermediarioServico);
 
         $this->dom->addChild(
             $intermediarioServico,
@@ -568,17 +643,13 @@ class Make
             true,
             "Número do Cnpj"
         );
+    }
 
-        $this->dom->addChild(
-            $identificacaoTomador,
-            "InscricaoMunicipal",
-            '',
-            true,
-            "Número de Inscrição Municipal do intermediário"
-        );
+    public function buildConstrucaoCivil()
+    {
 
         $construcaoCivil = $this->dom->createElement('ConstrucaoCivil');
-        $infRps->appendChild($construcaoCivil);
+        $this->infRps->appendChild($construcaoCivil);
 
         $this->dom->addChild(
             $construcaoCivil,
@@ -595,10 +666,6 @@ class Make
             true,
             "Código ART"
         );
-
-        $this->xml = $this->dom->saveXML();
-
-        return $this->xml;
     }
 
     public function cancelamento($std)
@@ -711,7 +778,7 @@ class Make
         );
 
         $this->dom->addChild(
-            $identificacaoTomador,
+            $cpfCnpj,
             "Cnpj",
             $std->tomador->Cnpj,
             true,

@@ -56,13 +56,13 @@ class Tools
     public function envelopXML($xml, $method, $method2)
     {
         $xml = trim(preg_replace("/<\?xml.*?\?>/", "", $xml));
-        var_dump($this->config);
+
         $this->xml = '<sis:' . $method . '>
                         <sis:' . $method2 . '>' . $xml . '
                         </sis:' . $method2 . '>
                         <sis:pParam>
-                            <sis1:P1>' . $this->config->cnpj . '</sis1:P1>
-                            <sis1:P2>' . $this->config->cnpj . '</sis1:P2>
+                            <sis1:P1>' . $this->config->user . '</sis1:P1>
+                            <sis1:P2>' . $this->config->password . '</sis1:P2>
                         </sis:pParam>
                     </sis:' . $method . '>';
 
