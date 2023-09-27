@@ -13,7 +13,6 @@ class Make
 
     public function __construct()
     {
-
         $this->dom = new Dom();
 
         $this->dom->preserveWhiteSpace = false;
@@ -21,7 +20,7 @@ class Make
         $this->dom->formatOutput = false;
 
         $this->loteRps = $this->dom->createElement('nfse:LoteRps');
-
+        
         $this->infRps = $this->dom->createElement('InfRps');
 
         $this->servico = $this->dom->createElement('Servico');
@@ -49,7 +48,7 @@ class Make
 
             $this->monta();
         }
-
+        
         return $this->xml;
     }
 
@@ -60,7 +59,7 @@ class Make
         $listaRps = $this->dom->createElement('nfse:ListaRps');
         $this->loteRps->appendChild($listaRps);
 
-        $rps = $this->dom->createElement('Rps');
+        $rps = $this->dom->createElement('nfse:Rps');
         $listaRps->appendChild($rps);
 
         $rps->appendChild($this->infRps);
@@ -97,9 +96,9 @@ class Make
 
         $firstItem->insertBefore($this->endereco, $contato);
 
-        $this->buildIntermediarioServico();
+        // $this->buildIntermediarioServico();
 
-        $this->buildConstrucaoCivil();
+        // $this->buildConstrucaoCivil();
 
         $this->xml = $this->dom->saveXML();
 
@@ -218,7 +217,7 @@ class Make
         $this->dom->addChild(
             $this->identificacaoRps,
             "Numero",
-            '1',
+            $std->Numero,
             true,
             "Número do RPS"
         );
@@ -241,6 +240,8 @@ class Make
             2 –Nota Fiscal Conjugada (Mista)
             3 –Cupom"
         );
+
+        $this->infRps->setAttribute('id', $std->Numero);
     }
 
     public function buildServico($std)
@@ -498,28 +499,31 @@ class Make
 
         $cpfCnpj = $this->dom->createElement('CpfCnpj');
         $this->identificacaoTomador->appendChild($cpfCnpj);
-
-        $this->dom->addChild(
-            $cpfCnpj,
-            "Cpf",
-            '00000000000',
-            true,
-            "Número do Cpf"
-        );
-
-        $this->dom->addChild(
-            $cpfCnpj,
-            "Cnpj",
-            $std->Cnpj,
-            true,
-            "Número do Cnpj"
-        );
+        
+        if (strlen($std->Cnpj) > 11){
+            $this->dom->addChild(
+                $cpfCnpj,
+                "Cnpj",
+                $std->Cnpj,
+                true,
+                "Número do Cnpj"
+            );
+        } else {
+            $this->dom->addChild(
+                $cpfCnpj,
+                "Cpf",
+                $std->Cnpj,
+                true,
+                "Número do Cpf"
+            );
+        }
+       
 
         $this->dom->addChild(
             $this->identificacaoTomador,
             "InscricaoMunicipal",
             $std->InscricaoMunicipal,
-            true,
+            false,
             "Número de Inscrição Municipal do tomador"
         );
 
@@ -527,7 +531,7 @@ class Make
             $this->identificacaoTomador,
             "InscricaoEstadual",
             $std->InscricaoMunicipal,
-            true,
+            false,
             "Número de Inscrição Estadual do tomador"
         );
     }
