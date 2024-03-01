@@ -24,12 +24,6 @@ class Tools
 
     protected $canonical = [false, false, null, null];
 
-    public $lastRequest = null;
-
-    public $lastResponse = null;
-
-    public $versao = '1.0';
-
     public function __construct($configJson, Certificate $certificate)
     {
         $this->pathSchemas = realpath(
@@ -45,9 +39,11 @@ class Tools
             $this->soapUrl = 'http://wspatrocinio.simplissweb.com.br/nfseservice.svc?singleWsdl';
         } else {
 
-            $this->soapUrl = 'http://wshomologacao.simplissweb.com.br/nfseservice.svc?singleWsdl';
+            $this->soapUrl = 'http://wshomologacao.simplissweb.com.br/nfseservice.svc?wsdl';
         }
+
     }
+
 
     protected function sendRequest($request, $soapUrl, $soapAction)
     {
@@ -71,8 +67,9 @@ class Tools
                             <sis1:P2>' . $this->config->password . '</sis1:P2>
                         </sis:pParam>
                     </sis:' . $method . '>';
-
-        return $this->xml;
+                    
+                    var_dump($this->xml);
+                    return $this->xml;
     }
 
     public function envelopSoapXML($xml)
@@ -89,32 +86,5 @@ class Tools
     public function getLastRequest()
     {
         return $this->lastRequest;
-    }
-
-    public function removeStuffs($xml){     
-                        
-        if (preg_match('/<soapenv:Body>/', $xml)){
-
-            $tag = '<soapenv:Body>';
-
-            $xml = substr( $xml, ( strpos($xml, $tag) + strlen($tag) ), strlen($xml)  );
-            
-            $tag = '</soapenv:Body>';
-
-            $xml = substr( $xml, 0 , strpos($xml, $tag) );
-        
-        } else if (preg_match('/<s:Body/', $xml)){
-
-            $tag = '<s:Body xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">';
-
-            $xml = substr( $xml, ( strpos($xml, $tag) + strlen($tag) ), strlen($xml)  );
-            
-            $tag = '</s:Body>';
-
-            $xml = substr( $xml, 0 , strpos($xml, $tag) );
-
-        }
-        
-        return $xml;
     }
 }

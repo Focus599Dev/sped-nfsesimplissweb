@@ -13,6 +13,7 @@ class Make
 
     public function __construct()
     {
+
         $this->dom = new Dom();
 
         $this->dom->preserveWhiteSpace = false;
@@ -20,7 +21,7 @@ class Make
         $this->dom->formatOutput = false;
 
         $this->loteRps = $this->dom->createElement('nfse:LoteRps');
-        
+
         $this->infRps = $this->dom->createElement('InfRps');
 
         $this->servico = $this->dom->createElement('Servico');
@@ -48,7 +49,7 @@ class Make
 
             $this->monta();
         }
-        
+
         return $this->xml;
     }
 
@@ -59,7 +60,7 @@ class Make
         $listaRps = $this->dom->createElement('nfse:ListaRps');
         $this->loteRps->appendChild($listaRps);
 
-        $rps = $this->dom->createElement('nfse:Rps');
+        $rps = $this->dom->createElement('Rps');
         $listaRps->appendChild($rps);
 
         $rps->appendChild($this->infRps);
@@ -214,6 +215,7 @@ class Make
     public function buildIdentificacaoRps($std)
     {
 
+
         $this->dom->addChild(
             $this->identificacaoRps,
             "Numero",
@@ -240,8 +242,6 @@ class Make
             2 –Nota Fiscal Conjugada (Mista)
             3 –Cupom"
         );
-
-        $this->infRps->setAttribute('id', $std->Numero);
     }
 
     public function buildServico($std)
@@ -362,11 +362,21 @@ class Make
 
         $this->dom->addChild(
             $this->valores,
+            "ValorIssRetido",
+            $std->ValorIssRetido,
+            true,
+            "Valor do ISS Retido"
+        );
+
+        $this->dom->addChild(
+            $this->valores,
             "ValorIss",
             $std->ValorIss,
             true,
             "Valor do ISS"
         );
+
+
 
         $this->dom->addChild(
             $this->valores,
@@ -411,10 +421,10 @@ class Make
 
         $this->dom->addChild(
             $this->valores,
-            "ValorIssRetido",
-            $std->ValorIssRetido,
+            "DescontoIncondicionado",
+            $std->DescontoIncondicionado,
             true,
-            "Valor do ISS Retido"
+            "Valor do Desconto Incondicionado"
         );
 
         $this->dom->addChild(
@@ -425,13 +435,7 @@ class Make
             "Valor do Desconto Condicionado"
         );
 
-        $this->dom->addChild(
-            $this->valores,
-            "DescontoIncondicionado",
-            $std->DescontoIncondicionado,
-            true,
-            "Valor do Desconto Incondicionado"
-        );
+
     }
 
     public function buildItensServico($std)
@@ -477,7 +481,7 @@ class Make
             $this->prestador,
             "InscricaoMunicipal",
             $std->InscricaoMunicipal,
-            true,
+            false,
             "Número de Inscrição Municipal do prestador"
         );
     }
@@ -499,25 +503,22 @@ class Make
 
         $cpfCnpj = $this->dom->createElement('CpfCnpj');
         $this->identificacaoTomador->appendChild($cpfCnpj);
-        
-        if (strlen($std->Cnpj) > 11){
-            $this->dom->addChild(
-                $cpfCnpj,
-                "Cnpj",
-                $std->Cnpj,
-                true,
-                "Número do Cnpj"
-            );
-        } else {
-            $this->dom->addChild(
-                $cpfCnpj,
-                "Cpf",
-                $std->Cnpj,
-                true,
-                "Número do Cpf"
-            );
-        }
-       
+
+        // $this->dom->addChild(
+        //     $cpfCnpj,
+        //     "Cpf",
+        //     '00000000000',
+        //     false,
+        //     "Número do Cpf"
+        // );
+
+        $this->dom->addChild(
+            $cpfCnpj,
+            "Cnpj",
+            $std->Cnpj,
+            true,
+            "Número do Cnpj"
+        );
 
         $this->dom->addChild(
             $this->identificacaoTomador,
@@ -625,7 +626,7 @@ class Make
             $intermediarioServico,
             "RazaoSocial",
             '',
-            true,
+            false,
             "Razão Social do intermediário"
         );
 
@@ -636,7 +637,7 @@ class Make
             $cpfCnpj,
             "Cpf",
             '',
-            true,
+            false,
             "Número do Cpf"
         );
 
@@ -644,7 +645,7 @@ class Make
             $cpfCnpj,
             "Cnpj",
             '',
-            true,
+            false,
             "Número do Cnpj"
         );
     }
@@ -659,7 +660,7 @@ class Make
             $construcaoCivil,
             "CodigoObra",
             '',
-            true,
+            false,
             "Código de Obra"
         );
 
@@ -667,7 +668,7 @@ class Make
             $construcaoCivil,
             "Art",
             '',
-            true,
+            false,
             "Código ART"
         );
     }
@@ -700,7 +701,7 @@ class Make
             $infPedidoCancelamento,
             "InscricaoMunicipal",
             $std->infPedidoCancelamento,
-            true,
+            false,
             "Número de inscrição municipal"
         );
 
@@ -736,7 +737,7 @@ class Make
             $prestador,
             "InscricaoMunicipal",
             $std->NumeroLote,
-            true,
+            false,
             "Número de Inscrição Municipal do prestador"
         );
 
@@ -777,7 +778,7 @@ class Make
             $cpfCnpj,
             "Cpf",
             '00000000000',
-            true,
+            false,
             "Número do Cpf"
         );
 
@@ -793,7 +794,7 @@ class Make
             $identificacaoTomador,
             "InscricaoMunicipal",
             $std->tomador->InscricaoMunicipal,
-            true,
+            false,
             "Número de Inscrição Municipal do tomador"
         );
 
@@ -801,7 +802,7 @@ class Make
             $identificacaoTomador,
             "InscricaoEstadual",
             $std->tomador->InscricaoMunicipal,
-            true,
+            false,
             "Número de Inscrição Estadual do tomador"
         );
 
@@ -812,7 +813,7 @@ class Make
             $intermediarioServico,
             "RazaoSocial",
             $std->tomador->InscricaoMunicipal,
-            true,
+            false,
             "Razão Social do intermediário"
         );
 
@@ -823,7 +824,7 @@ class Make
             $cpfCnpj,
             "Cpf",
             '00000000000',
-            true,
+            false,
             "Número do Cpf"
         );
 
@@ -839,7 +840,7 @@ class Make
             $intermediarioServico,
             "InscricaoMunicipal",
             $std->tomador->InscricaoMunicipal,
-            true,
+            false,
             "Número de Inscrição Municipal do intermediário"
         );
     }

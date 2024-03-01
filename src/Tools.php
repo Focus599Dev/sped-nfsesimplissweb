@@ -2,7 +2,6 @@
 
 namespace NFePHP\NFSe\SIMPLISSWEB;
 
-use DOMDocument;
 use NFePHP\Common\Strings;
 use NFePHP\NFSe\SIMPLISSWEB\Common\Signer;
 use NFePHP\NFSe\SIMPLISSWEB\Common\Tools as ToolsBase;
@@ -22,6 +21,8 @@ class Tools extends ToolsBase
         $method = 'RecepcionarLoteRps';
 
         $method2 = 'EnviarLoteRpsEnvio';
+
+        $this->lastRequest = htmlspecialchars_decode($xml);
 
         $request = $this->envelopXML($xml, $method, $method2);
 
@@ -44,21 +45,16 @@ class Tools extends ToolsBase
             $this->algorithm,
             $this->canonical
         );
-
-
-        $this->lastRequest = $request;
-
+        // echo $request; die;
         $soapAction = 'http://www.sistema.com.br/Sistema.Ws.Nfse/INfseService/RecepcionarLoteRps';
 
         $response = $this->sendRequest($request, $this->soapUrl, $soapAction);
-       
-        echo $response;
+        echo $response; die;
+        $response = strip_tags($response);
 
-        echo $this->lastRequest;
+        $response = htmlspecialchars_decode($response);
 
-        $this->lastResponse = $this->removeStuffs($response);
-
-        return $this->lastResponse;
+        return $response;
     }
 
     public function CancelaNfse($std)
