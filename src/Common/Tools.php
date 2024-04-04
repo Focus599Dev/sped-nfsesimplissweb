@@ -30,23 +30,51 @@ class Tools
 
     public $versao = '1.0';
 
+    public $pathwsfiles = '';
+
+    public $xml;
+
     public function __construct($configJson, Certificate $certificate)
     {
         $this->pathSchemas = realpath(
             __DIR__ . '/../../schemas'
         ) . '/';
 
+        $this->pathwsfiles = realpath(
+            __DIR__ . '/../../storage'
+        ).'/';
+
         $this->certificate = $certificate;
 
         $this->config = json_decode($configJson);
 
-        if ($this->config->tpAmb == '1') {
+    }
 
-            $this->soapUrl = 'http://wspatrocinio.simplissweb.com.br/nfseservice.svc?singleWsdl';
-        } else {
+    private function gerServiceURL($method){
 
-            $this->soapUrl = 'http://wshomologacao.simplissweb.com.br/nfseservice.svc?singleWsdl';
+        $ambiente = $this->config->tpAmb == 1 ? "producao" : "homologacao";
+
+        $webs = new Webservices($this->getXmlUrlPath());
+
+        $stdServ = $webs->get($this->config->municipio, $ambiente);
+
+        if (isset($stdServ->$method)){
+
+            $this->soapUrl = $stdServ->$method->url;
+
         }
+    }
+
+    private function getXmlUrlPath(){
+
+        $file = $this->pathwsfiles . "wsnfse.xml";
+
+        if (! file_exists($file)) {
+            return '';
+        }
+
+        return file_get_contents($file);
+
     }
 
     protected function sendRequest($request, $soapUrl, $soapAction)
@@ -61,6 +89,9 @@ class Tools
 
     public function envelopXML($xml, $method, $method2)
     {
+
+        $this->gerServiceURL($method);
+
         $xml = trim(preg_replace("/<\?xml.*?\?>/", "", $xml));
 
         $this->xml = '<sis:' . $method . '>
@@ -92,7 +123,7 @@ class Tools
     }
 
     public function removeStuffs($xml){     
-                        
+
         if (preg_match('/<soapenv:Body>/', $xml)){
 
             $tag = '<soapenv:Body>';

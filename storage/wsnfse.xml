@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<WS xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <municipio>
+        <codigo>3148103</codigo>
+        <homologacao>
+            <RecepcionarLoteRps method="RecepcionarLoteRps">http://wshomologacao.simplissweb.com.br/nfseservice.svc</RecepcionarLoteRps>
+            <ConsultarSituacaoLoteRps method="ConsultarSituacaoLoteRps">http://wshomologacao.simplissweb.com.br/nfseservice.svc</ConsultarSituacaoLoteRps>
+            <ConsultarNfsePorRps method="ConsultarNfsePorRps">http://wshomologacao.simplissweb.com.br/nfseservice.svc</ConsultarNfsePorRps>
+            <ConsultarNfse method="ConsultarNfse">http://wshomologacao.simplissweb.com.br/nfseservice.svc</ConsultarNfse>
+            <ConsultarLoteRps method="ConsultarLoteRps">http://wshomologacao.simplissweb.com.br/nfseservice.svc</ConsultarLoteRps>
+            <CancelarNfse method="CancelarNfse">http://wshomologacao.simplissweb.com.br/nfseservice.svc</CancelarNfse>
+            <GerarNfse method="GerarNfse">http://wshomologacao.simplissweb.com.br/nfseservice.svc</GerarNfse>
+        </homologacao>
+        <producao>
+            <RecepcionarLoteRps method="RecepcionarLoteRps">http://wspatrocinio.simplissweb.com.br/nfseservice.svc</RecepcionarLoteRps>
+            <ConsultarSituacaoLoteRps method="ConsultarSituacaoLoteRps">http://wspatrocinio.simplissweb.com.br/nfseservice.svc</ConsultarSituacaoLoteRps>
+            <ConsultarNfsePorRps method="ConsultarNfsePorRps">http://wspatrocinio.simplissweb.com.br/nfseservice.svc</ConsultarNfsePorRps>
+            <ConsultarNfse method="ConsultarNfse">http://wspatrocinio.simplissweb.com.br/nfseservice.svc</ConsultarNfse>
+            <ConsultarLoteRps method="ConsultarLoteRps">http://wspatrocinio.simplissweb.com.br/nfseservice.svc</ConsultarLoteRps>
+            <CancelarNfse method="CancelarNfse">http://wspatrocinio.simplissweb.com.br/nfseservice.svc</CancelarNfse>
+            <GerarNfse method="GerarNfse">http://wspatrocinio.simplissweb.com.br/nfseservice.svc</GerarNfse>
+        </producao>
+    </municipio>
+    <municipio>
+        <codigo>3541406</codigo>
+        <homologacao>
+            <RecepcionarLoteRps method="RecepcionarLoteRps">http://wshomologacao.simplissweb.com.br/nfseservice.svc</RecepcionarLoteRps>
+            <ConsultarSituacaoLoteRps method="ConsultarSituacaoLoteRps">http://wshomologacao.simplissweb.com.br/nfseservice.svc</ConsultarSituacaoLoteRps>
+            <ConsultarNfsePorRps method="ConsultarNfsePorRps">http://wshomologacao.simplissweb.com.br/nfseservice.svc</ConsultarNfsePorRps>
+            <ConsultarNfse method="ConsultarNfse">http://wshomologacao.simplissweb.com.br/nfseservice.svc</ConsultarNfse>
+            <ConsultarLoteRps method="ConsultarLoteRps">http://wshomologacao.simplissweb.com.br/nfseservice.svc</ConsultarLoteRps>
+            <CancelarNfse method="CancelarNfse">http://wshomologacao.simplissweb.com.br/nfseservice.svc</CancelarNfse>
+            <GerarNfse method="GerarNfse">http://wshomologacao.simplissweb.com.br/nfseservice.svc</GerarNfse>
+        </homologacao>
+        <producao>
+            <RecepcionarLoteRps method="RecepcionarLoteRps">http://issprudente.sp.gov.br/ws_nfse/nfseservice.svc</RecepcionarLoteRps>
+            <ConsultarSituacaoLoteRps method="ConsultarSituacaoLoteRps">http://issprudente.sp.gov.br/ws_nfse/nfseservice.svc</ConsultarSituacaoLoteRps>
+            <ConsultarNfsePorRps method="ConsultarNfsePorRps">http://issprudente.sp.gov.br/ws_nfse/nfseservice.svc</ConsultarNfsePorRps>
+            <ConsultarNfse method="ConsultarNfse">http://issprudente.sp.gov.br/ws_nfse/nfseservice.svc</ConsultarNfse>
+            <ConsultarLoteRps method="ConsultarLoteRps">http://issprudente.sp.gov.br/ws_nfse/nfseservice.svc</ConsultarLoteRps>
+            <CancelarNfse method="CancelarNfse">http://issprudente.sp.gov.br/ws_nfse/nfseservice.svc</CancelarNfse>
+            <GerarNfse method="GerarNfse">http://issprudente.sp.gov.br/ws_nfse/nfseservice.svc</GerarNfse>
+        </producao>
+    </municipio>
+    
+</WS>

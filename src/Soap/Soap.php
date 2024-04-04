@@ -32,6 +32,8 @@ class Soap
 
         $response = curl_exec($ch);
 
+        var_dump($soapUrl);
+        var_dump($response);
         curl_close($ch);
 
         return $response;

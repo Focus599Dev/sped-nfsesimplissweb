@@ -46,15 +46,15 @@ class Tools extends ToolsBase
         );
 
 
-        $this->lastRequest = $request;
+        $this->lastRequest = $this->removeStuffs($request);
 
         $soapAction = 'http://www.sistema.com.br/Sistema.Ws.Nfse/INfseService/RecepcionarLoteRps';
 
         $response = $this->sendRequest($request, $this->soapUrl, $soapAction);
-       
+        
         echo $response;
 
-        echo $this->lastRequest;
+        echo $request;
 
         $this->lastResponse = $this->removeStuffs($response);
 
@@ -70,43 +70,80 @@ class Tools extends ToolsBase
 
         $xml = Strings::clearXmlString($xml);
 
-        $servico = 'cancelar';
+        $method = 'CancelarNfse';
 
-        $request = $this->envelopXML($xml, $servico);
+        $method2 = 'CancelarNfseEnvio';
+
+        $request = $this->envelopXML($xml, $method, $method2);
 
         $request = $this->envelopSoapXML($request);
 
-        $response = $this->sendRequest($request, $this->soapUrl);
+        $soapAction = 'http://www.sistema.com.br/Sistema.Ws.Nfse/INfseService/CancelarNfse';
 
-        $response = strip_tags($response);
+        $response = $this->sendRequest($request, $this->soapUrl, $soapAction);
+        
+        $this->lastResponse = $this->removeStuffs($response);
 
-        $response = htmlspecialchars_decode($response);
-
-        return $response;
+        return $this->lastResponse;
     }
 
-    public function consultaSituacaoLoteRPS($std)
+    public function consultaSituacaoLoteRPS($std, $codigoCidade)
     {
 
         $make = new Make();
 
-
-        $xml = $make->consulta($std, $codigoCidade);
+        $xml = $make->consultaSituacaoLote($std);
 
         $xml = Strings::clearXmlString($xml);
 
-        $servico = 'consultarLote';
+        $method = 'ConsultarSituacaoLoteRps';
 
-        $request = $this->envelopXML($xml, $servico);
+        $method2 = 'ConsultarSituacaoLoteRpsEnvio';
+
+        $request = $this->envelopXML($xml, $method, $method2);
 
         $request = $this->envelopSoapXML($request);
 
-        $response = $this->sendRequest($request, $this->soapUrl);
+        $soapAction = 'http://www.sistema.com.br/Sistema.Ws.Nfse/INfseService/ConsultarSituacaoLoteRps';
 
-        $response = strip_tags($response);
+        $response = $this->sendRequest($request, $this->soapUrl, $soapAction );
 
-        $response = htmlspecialchars_decode($response);
+        echo $response;
+        
+        echo $request;
 
-        return $response;
+        $this->lastResponse = $this->removeStuffs($response);
+
+        return $this->lastResponse;
+    }
+
+    public function ConsultarNfsePorRps($std, $codigoCidade)
+    {
+
+        $make = new Make();
+
+        $xml = $make->consultarNfsePorRps($std);
+
+        $xml = Strings::clearXmlString($xml);
+
+        $method = 'ConsultarNfsePorRps';
+
+        $method2 = 'ConsultarNfseRpsEnvio';
+
+        $request = $this->envelopXML($xml, $method, $method2);
+
+        $request = $this->envelopSoapXML($request);
+
+        $soapAction = 'http://www.sistema.com.br/Sistema.Ws.Nfse/INfseService/ConsultarNfsePorRps';
+
+        $response = $this->sendRequest($request, $this->soapUrl, $soapAction );
+
+        echo $response;
+        
+        echo $request;
+
+        $this->lastResponse = $this->removeStuffs($response);
+
+        return $this->lastResponse;
     }
 }
